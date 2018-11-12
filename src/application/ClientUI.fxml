@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="285.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+   <children>
+      <TextField fx:id="txtServerPort" layoutX="14.0" layoutY="14.0" text="1234" />
+      <Button fx:id="btnSpawnClient" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#onBtnSpawnClient_Click" text="Spawn client" />
+      <Label fx:id="labelCountClients" layoutX="112.0" layoutY="43.0" prefHeight="17.0" prefWidth="51.0" text="0" />
+      <Button fx:id="btnDisconnectAll" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#onBtnDisconnectAll_Click" text="Disconnect all" />
+   </children>
+</AnchorPane>
