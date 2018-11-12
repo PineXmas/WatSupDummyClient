@@ -1,5 +1,7 @@
 package application;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -44,6 +46,15 @@ public class Controller {
 						clientSocket.connect(a);
 						System.out.println("Client " + clientID + " connected to server: " + clientSocket.getInetAddress().toString());
 						
+						//send its names some times to the server
+						int maxTrials = 100;
+						String name = "[" + clientSocket.getLocalAddress().getHostName() + ":" + clientSocket.getLocalPort() + "]";
+						OutputStream outputStream = clientSocket.getOutputStream();
+						for (int i=0; i<maxTrials; i++) {
+							String content = name + "(" + i + ")";
+							byte[] buff = content.getBytes();
+							outputStream.write(buff);
+						}
 					} catch (Exception e) {
 						//e.printStackTrace();
 						System.out.println(e.getMessage());
