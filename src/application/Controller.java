@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 public class Controller {
@@ -27,6 +28,11 @@ public class Controller {
 	public TextField txtMaxMsgs;
 	public Button btnTest;
 	public TextField txtServerHost;
+	
+	//message types
+	public RadioButton radioRandomMsg;
+	public RadioButton radioLoginMsg;
+	public RadioButton radioLogoutMsg;
 	
 	//client list
 	public Integer countClients = 0;
@@ -77,15 +83,21 @@ public class Controller {
 							
 							for (int i = 0; i < randMsgs; i++) {
 								//prepare message
-								int dataLength = randomizer.nextInt(20);
-								String s = genRandomString(dataLength);
-								int opcode = randomizer.nextInt();
-								ByteBuffer buff = ByteBuffer.allocate(4+4+dataLength);
-								buff.putInt(opcode).putInt(dataLength).put(s.getBytes());
-								System.out.println("  client " + name + " sends: " + opcode + "|" + dataLength + "|" + s);
+								WSMessage msg;
+								if (radioRandomMsg.isSelected()) {
+									msg = genRandomMsg();
+								} else if (radioLoginMsg.isSelected()) {
+									msg = genLoginMsg();
+								} else {
+									System.out.println("No message type is selected. Sending skipped");
+									continue;
+								}
+								
+								
+								System.out.println("  client " + name + " sends: " + msg.toString());
 								
 								//send message
-								outputStream.write(buff.array());
+								outputStream.write(msg.msgBytes);
 								
 								//sleep for some time
 								int sleepMsecs = randomizer.nextInt(5001);
@@ -168,7 +180,7 @@ public class Controller {
 		String s = genRandomString(n);
 		System.out.println("n=" + n + ": " + s);
 	}
-	
+
 	/**
 	 * Generate random string of n chars
 	 * @param n
@@ -182,5 +194,24 @@ public class Controller {
 		}
 		
 		return s;
+	}
+	
+	public WSMessage genRandomMsg() {
+
+		int dataLength = randomizer.nextInt(20);
+		String s = genRandomString(dataLength);
+		int opcode = randomizer.nextInt();
+		ByteBuffer buff = ByteBuffer.allocate(4+4+dataLength);
+		buff.putInt(opcode).putInt(dataLength).put(s.getBytes());
+		
+		return new WSMUnknown(opcode, dataLength, buff.array(), null);
+	}
+	
+	public WSMessage genLoginMsg() {
+
+		int nameLength = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String s = genRandomString(nameLength);
+		
+		return new WSMLogin(s);
 	}
 }
