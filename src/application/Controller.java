@@ -1,15 +1,11 @@
 package application;
 
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
-
-import com.sun.javafx.image.ByteToBytePixelConverter;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -33,6 +29,21 @@ public class Controller {
 	public RadioButton radioRandomMsg;
 	public RadioButton radioLoginMsg;
 	public RadioButton radioLogoutMsg;
+	public RadioButton radioLoginSuccessMsg;
+	public RadioButton radioListRoomsMsg;
+	public RadioButton radioListRoomsRespMsg;
+	public RadioButton radioListUsersRespMsg;
+	public RadioButton radioJoinMsg;
+	public RadioButton radioLeaveMsg;
+	public RadioButton radioSendRoomMsgMsg;
+	public RadioButton radioTellRoomMsgMsg;
+	public RadioButton radioSendPrivateMsgMsg;
+	public RadioButton radioTellPrivateMsgMsg;
+	public RadioButton radioErrorUnknownMsg;
+	public RadioButton radioErrorNameExistsMsg;
+	public RadioButton radioErrorTooUsersMsg;
+	public RadioButton radioErrorTooRoomsMsg;
+	public RadioButton radioErrorKickedOutMsg;
 	
 	//client list
 	public Integer countClients = 0;
@@ -88,6 +99,38 @@ public class Controller {
 									msg = genRandomMsg();
 								} else if (radioLoginMsg.isSelected()) {
 									msg = genLoginMsg();
+								} else if (radioLogoutMsg.isSelected()) {
+									msg = genLogoutMsg();
+								} else if (radioLoginSuccessMsg.isSelected()) {
+									msg = genLoginSuccessMsg();
+								} else if (radioListRoomsMsg.isSelected()) {
+									msg = genListRoomsMsg();
+								} else if (radioListRoomsRespMsg.isSelected()) {
+									msg = genListRoomsRespMsg();
+								} else if (radioListUsersRespMsg.isSelected()) {
+									msg = genListUsersRespMsg();
+								} else if (radioJoinMsg.isSelected()) {
+									msg = genJoinRoomMsg();
+								} else if (radioLeaveMsg.isSelected()) {
+									msg = genLeaveRoomMsg();
+								} else if (radioSendPrivateMsgMsg.isSelected()) {
+									msg = genSendPrivateMsgMsg();
+								} else if (radioTellPrivateMsgMsg.isSelected()) {
+									msg = genTellPrivateMsgMsg();
+								} else if (radioSendRoomMsgMsg.isSelected()) {
+									msg = genSendRoomMsgMsg();
+								} else if (radioTellRoomMsgMsg.isSelected()) {
+									msg = genTellRoomMsgMsg();
+								} else if (radioErrorUnknownMsg.isSelected()) {
+									msg = genErrorUnknownMsg();
+								} else if (radioErrorNameExistsMsg.isSelected()) {
+									msg = genErrorNameExistsMsg();
+								} else if (radioErrorTooUsersMsg.isSelected()) {
+									msg = genErrorTooManyUsersMsg();
+								} else if (radioErrorTooRoomsMsg.isSelected()) {
+									msg = genErrorTooManyRoomsMsg();
+								} else if (radioErrorKickedOutMsg.isSelected()) {
+									msg = genErrorKickedOutMsg();
 								} else {
 									System.out.println("No message type is selected. Sending skipped");
 									continue;
@@ -213,5 +256,116 @@ public class Controller {
 		String s = genRandomString(nameLength);
 		
 		return new WSMLogin(s);
+	}
+	
+	public WSMessage genLogoutMsg() {
+		
+		return new WSMLogout();
+	}
+	
+	public WSMessage genLoginSuccessMsg() {
+		
+		return new WSMLoginSuccess();
+	}
+	
+	public WSMessage genListRoomsMsg() {
+		
+		return new WSMListRooms();
+	}
+	
+	public WSMessage genJoinRoomMsg() {
+		int nameLength = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String roomName = genRandomString(nameLength);
+		return new WSMJoinRoom(roomName);
+	}
+	
+	public WSMessage genLeaveRoomMsg() {
+		int nameLength = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String roomName = genRandomString(nameLength);
+		return new WSMLeaveRoom(roomName);
+	}
+	
+	public WSMessage genListRoomsRespMsg() {
+		int nRooms = randomizer.nextInt(10);
+		String[] arrRoomNames = new String[nRooms];
+		for (int i = 0; i < nRooms; i++) {
+			int nameLength = randomizer.nextInt(WSSettings._LABEL_SIZE);
+			String roomName = genRandomString(nameLength);
+			arrRoomNames[i] = roomName;
+		}
+		return new WSMListRoomsResp(arrRoomNames);
+	}
+	
+	public WSMessage genListUsersRespMsg() {
+		int nameLength = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String roomName = genRandomString(nameLength);
+		
+		int nRooms = randomizer.nextInt(10);
+		String[] arrUserNames = new String[nRooms];
+		for (int i = 0; i < nRooms; i++) {
+			nameLength = randomizer.nextInt(WSSettings._LABEL_SIZE);
+			String name = genRandomString(nameLength);
+			arrUserNames[i] = name;
+		}
+		
+		return new WSMListUsersResp(roomName, arrUserNames);
+	}
+	
+	public WSMessage genSendRoomMsgMsg() {
+		int n = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String roomName = genRandomString(n);
+		n = randomizer.nextInt(WSSettings._LABEL_SIZE * 4);
+		String content  = genRandomString(n);
+		return new WSMSendRoomMsg(roomName, content);
+	}
+
+	public WSMessage genTellRoomMsgMsg() {
+		int n = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String roomName = genRandomString(n);
+		n = randomizer.nextInt(WSSettings._LABEL_SIZE * 4);
+		String userName = genRandomString(n);
+		n = randomizer.nextInt(WSSettings._LABEL_SIZE * 4);
+		String content  = genRandomString(n);
+		return new WSMTellRoomMsg(userName, roomName, content);
+	}
+	
+	public WSMessage genSendPrivateMsgMsg() {
+		int n = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String name = genRandomString(n);
+		n = randomizer.nextInt(WSSettings._LABEL_SIZE * 4);
+		String content  = genRandomString(n);
+		return new WSMSendPrivateMsg(name, content);
+	}
+	
+	public WSMessage genTellPrivateMsgMsg() {
+		int n = randomizer.nextInt(WSSettings._LABEL_SIZE);
+		String name = genRandomString(n);
+		n = randomizer.nextInt(WSSettings._LABEL_SIZE * 4);
+		String content  = genRandomString(n);
+		return new WSMTellPrivateMsg(name, content);
+	}
+	
+	public WSMessage genErrorUnknownMsg() {
+		return new WSMError(WSMCode.ERR_UNKNOWN);
+	}
+	
+	public WSMessage genErrorNameExistsMsg() {
+		
+		return new WSMError(WSMCode.ERR_NAME_EXISTS);
+	}
+	
+	public WSMessage genErrorTooManyUsersMsg() {
+		
+		return new WSMError(WSMCode.ERR_TOO_MANY_USERS);
+	}
+	
+	public WSMessage genErrorTooManyRoomsMsg() {
+		
+		return new WSMError(WSMCode.ERR_TOO_MANY_ROOMS);
+	}
+	
+	public WSMessage genErrorKickedOutMsg() {
+
+		return new WSMError(WSMCode.ERR_KICKED_OUT);
 	}
 }

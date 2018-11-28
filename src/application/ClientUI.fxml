@@ -38,6 +38,21 @@
                   </HBox>
                   <RadioButton fx:id="radioLoginMsg" mnemonicParsing="false" text="LOGIN" toggleGroup="$groupMessageType" />
                   <RadioButton fx:id="radioLogoutMsg" mnemonicParsing="false" text="LOGOUT" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioLoginSuccessMsg" mnemonicParsing="false" text="LOGIN SUCCESS" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioListRoomsMsg" mnemonicParsing="false" text="LIST ROOMS" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioListRoomsRespMsg" mnemonicParsing="false" text="LIST ROOMS RESP" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioListUsersRespMsg" mnemonicParsing="false" text="LIST USERS RESP" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioJoinMsg" mnemonicParsing="false" text="JOIN ROOM" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioLeaveMsg" mnemonicParsing="false" text="LEAVE ROOM" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioSendRoomMsgMsg" mnemonicParsing="false" text="SEND ROOM MSG" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioTellRoomMsgMsg" mnemonicParsing="false" text="TELL ROOM MSG" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioSendPrivateMsgMsg" mnemonicParsing="false" text="SEND PRIVATE MSG" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioTellPrivateMsgMsg" mnemonicParsing="false" text="TELL PRIVATE MSG" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioErrorUnknownMsg" mnemonicParsing="false" text="ERROR UNKNOWN" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioErrorNameExistsMsg" mnemonicParsing="false" text="ERROR NAME EXISTS" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioErrorTooUsersMsg" mnemonicParsing="false" text="ERROR TOO MANY USERS" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioErrorTooRoomsMsg" mnemonicParsing="false" text="ERROR TOO MANY ROOMS" toggleGroup="$groupMessageType" />
+                  <RadioButton fx:id="radioErrorKickedOutMsg" mnemonicParsing="false" text="ERROR KICKED OUT" toggleGroup="$groupMessageType" />
                   <CheckBox fx:id="checkRandMsg" mnemonicParsing="false" selected="true" text="Rand msg" />
                </children>
                <padding>
