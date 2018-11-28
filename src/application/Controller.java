@@ -368,4 +368,13 @@ public class Controller {
 
 		return new WSMError(WSMCode.ERR_KICKED_OUT);
 	}
+
+	public void connectAndForget() {
+		//connect to server, output the first line, then quit
+		try {
+//			Socket client = new Socket("", "");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }
